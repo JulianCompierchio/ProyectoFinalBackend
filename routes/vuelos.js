@@ -5,7 +5,9 @@ const vuelosController = require('../controllers/vuelos.controller');
 /* GET users listing. */
 router.get('/ver', vuelosController.getVuelos);
 
-router.get('/ver/:id', vuelosController.getVueloById);
+router.get('/ver/destino/', vuelosController.getVuelosByDestino);
+
+router.get('/ver/id/:id', vuelosController.getVueloById);
 
 router.post('/crear', vuelosController.createVuelo);
 

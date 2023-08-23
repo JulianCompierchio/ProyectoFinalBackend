@@ -30,6 +30,10 @@ const vueloSchema = new Schema({
         asientos_disponibles: {
             type: Number,
             required: true,
+        },
+        clima_destino: {
+            type: String,
+            required: true,
         }
 })
 

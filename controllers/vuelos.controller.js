@@ -1,4 +1,5 @@
 const Vuelo = require('../models/Vuelo');
+const Clima = require('./clima.controller');
 
 const getVuelos = async (req,res) => {
     try {
@@ -20,9 +21,25 @@ const getVueloById = async (req,res) => {
     }
 }
 
+const getVuelosByDestino = async (req,res) => {
+    try{
+        const destino = req.query.destino;
+        const vuelo = await Vuelo.find({ destino: destino});
+        res.status(200).json({msg:'OK', vuelo: vuelo});
+    }
+    catch (error) {
+        res.status(500).json({msg:'Error : ' + error.message, vuelo: null});
+    }
+}
+
 const createVuelo = async (req,res) => {
     try {
-        const vuelo = new Vuelo(req.body);
+        //Pedido del clima a la api para luego guardarlo
+        //La api solo funciona con destinos 
+        const clima_data = await Clima.getClimas(req.body.destino);
+        //Agregado de la propiedad clima_destino al body para guardarlo en la db
+        req.body.clima_destino = clima_data;
+        const vuelo = new Vuelo(req.body)
         await vuelo.save();
         res.status(201).json({msg:'Vuelo Creado Exitosamente'});
 
@@ -51,4 +68,4 @@ const deleteVuelo = async (req,res) => {
     }
 }
 
-module.exports = { getVuelos, getVueloById , createVuelo, updateVuelo, deleteVuelo}
+module.exports = { getVuelos, getVueloById, getVuelosByDestino , createVuelo, updateVuelo, deleteVuelo}
