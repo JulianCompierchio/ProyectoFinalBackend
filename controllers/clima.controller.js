@@ -1,4 +1,5 @@
 const axios = require('axios');
+require('dotenv').config();
 
 const getClimas = async(destino,res) => {  
 
@@ -7,7 +8,7 @@ const getClimas = async(destino,res) => {
         url: 'https://weather-by-api-ninjas.p.rapidapi.com/v1/weather',
         params: {city: destino},
         headers: {
-            'X-RapidAPI-Key': '65daf2595dmsha4e1091b662063bp1f4a80jsna90c8bdfa4e9',
+            'X-RapidAPI-Key': process.env.RAPIDAPIKEY,
             'X-RapidAPI-Host': 'weather-by-api-ninjas.p.rapidapi.com'
         }
     };
