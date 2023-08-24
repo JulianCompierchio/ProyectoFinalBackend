@@ -2,7 +2,7 @@ const Vuelo = require('../models/Vuelo');
 
 const vueloExists = async (req,res,next) => {
     try {
-        const vuelo = await Vuelo.findOne({origen: req.body.origen, destino: req.body.destino, fecha_salida: req.body.fecha_salida, fecha_llegada: req.body.fecha_llegada});
+        const vuelo = await Vuelo.findOne({origen: req.body.origen, destino: req.body.destino, fecha_salida: req.body.fecha_salida, fecha_llegada: req.body.fecha_llegada, hora_salida: req.body.hora_salida});
             if (vuelo){
                 res.status(400).json({msg: 'El vuelo ya existe'});
             }else{
