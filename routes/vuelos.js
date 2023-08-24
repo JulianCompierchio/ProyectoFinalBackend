@@ -66,6 +66,6 @@ router.put('/modificar/:id([0-9a-fA-F]{24})',check("origen")
     vuelosController.updateVuelo
 );
 
-router.delete('/eliminar/:id', vuelosController.deleteVuelo);
+router.delete('/eliminar/:id([0-9a-fA-F]{24})', vuelosController.deleteVuelo);
 
 module.exports = router;
