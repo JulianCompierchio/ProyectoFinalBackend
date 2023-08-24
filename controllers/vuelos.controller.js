@@ -1,5 +1,6 @@
 const Vuelo = require('../models/Vuelo');
 const Clima = require('./clima.controller');
+const { validationResult } = require('express-validator');
 
 const getVuelos = async (req,res) => {
     try {
@@ -34,15 +35,20 @@ const getVuelosByDestino = async (req,res) => {
 
 const createVuelo = async (req,res) => {
     try {
-        //Pedido del clima a la api para luego guardarlo
-        //La api solo funciona con destinos 
-        const clima_data = await Clima.getClimas(req.body.destino);
-        //Agregado de la propiedad clima_destino al body para guardarlo en la db
-        req.body.clima_destino = clima_data;
-        const vuelo = new Vuelo(req.body)
-        await vuelo.save();
-        res.status(201).json({msg:'Vuelo Creado Exitosamente'});
-
+        const error = validationResult(req);
+        if (error.isEmpty()){
+             //Pedido del clima a la api para luego guardarlo
+            //La api solo funciona con destinos 
+            const clima_data = await Clima.getClimas(req.body.destino);
+            //Agregado de la propiedad clima_destino al body para guardarlo en la db
+            req.body.clima_destino = clima_data;
+            const vuelo = new Vuelo(req.body)
+            await vuelo.save();
+            res.status(201).json({msg:'Vuelo Creado Exitosamente'});
+        }
+        else{
+            res.status(400).json({msg:'Error al validar la petición : ', error: error.errors});
+        }
     } catch (error) {
         res.status(500).json({msg:'Error al crear vuelo: ' + error.message});
     }
