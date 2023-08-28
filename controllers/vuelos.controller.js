@@ -1,5 +1,5 @@
 const Vuelo = require('../models/Vuelo');
-const Clima = require('./clima.controller');
+const Clima = require('../utils/climaUtil');
 const { validationResult } = require('express-validator');
 
 const getVuelos = async (req,res) => {
